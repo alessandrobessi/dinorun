@@ -40,8 +40,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'sample'
-copyright = u'2012, Kenneth Reitz'
+project = u'dinorun'
+copyright = u'Alessandro Bessi'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -164,7 +164,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'sampledoc'
+htmlhelp_basename = 'dinorundoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -183,8 +183,8 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'sample.tex', u'sample Documentation',
-   u'Kenneth Reitz', 'manual'),
+  ('index', 'dinorun.tex', u'Dinorun Documentation',
+   u'Alessandro Bessi', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -213,8 +213,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'sample', u'sample Documentation',
-     [u'Kenneth Reitz'], 1)
+    ('index', 'dino', u'Dinorun Documentation',
+     [u'Alessandro Bessi'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -227,9 +227,9 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'sample', u'sample Documentation',
-   u'Kenneth Reitz', 'sample', 'One line description of project.',
-   'Miscellaneous'),
+  ('index', 'dinorun', u'Dinorun Documentation',
+   u'Alessandro Bessi', 'dinorun', 'Dinorun Reinforcement Learning',
+   'Artificial Intelligence'),
 ]
 
 # Documents to append as an appendix to all manuals.
