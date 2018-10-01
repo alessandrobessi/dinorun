@@ -213,7 +213,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'dino', u'sample Documentation',
+    ('index', 'dino', u'Dinorun Documentation',
      [u'Alessandro Bessi'], 1)
 ]
 
@@ -227,9 +227,9 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'sample', u'sample Documentation',
-   u'Kenneth Reitz', 'sample', 'One line description of project.',
-   'Miscellaneous'),
+  ('index', 'dinorun', u'Dinorun Documentation',
+   u'Alessandro Bessi', 'dinorun', 'Dinorun Reinforcement Learning',
+   'Artificial Intelligence'),
 ]
 
 # Documents to append as an appendix to all manuals.
