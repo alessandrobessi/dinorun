@@ -1,2 +1,7 @@
 nose
 sphinx
+selenium
+cv2
+pillow
+numpy
+pandas

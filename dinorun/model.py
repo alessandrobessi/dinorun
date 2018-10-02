@@ -1,13 +1,15 @@
+import configparser
 import os
-from keras.models import model_from_json
-from keras.models import Sequential
-from keras.layers.core import Dense, Dropout, Activation, Flatten
+
 from keras.layers.convolutional import Conv2D, MaxPooling2D
-from keras.optimizers import SGD, Adam
-from keras.callbacks import TensorBoard
+from keras.layers.core import Dense, Activation, Flatten
+from keras.models import Sequential
+from keras.optimizers import Adam
 
 from .settings import settings
-from .config import config
+
+config = configparser.ConfigParser()
+config.read('./config.ini')
 
 
 def build_model():
@@ -34,8 +36,6 @@ def build_model():
     adam = Adam(lr=settings['learning_rate'])
     model.compile(loss='mse', optimizer=adam)
 
-    # create model file if not present
-    if not os.path.isfile(config['loss_file_path']):
+    if not os.path.isfile(config['CONFIG']['loss_file_path']):
         model.save_weights('model.h5')
-    print("We finish building the model")
     return model

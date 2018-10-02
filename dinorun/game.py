@@ -10,12 +10,14 @@
 * resume(): resume a paused game if not crashed
 * end(): close the browser and end the game
 '''
+import configparser
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 
-from .config import config, canvas
+config = configparser.ConfigParser()
+config.read('./config.ini')
 
 
 class Game:
@@ -23,12 +25,13 @@ class Game:
         chrome_options = Options()
         chrome_options.add_argument('disable-infobars')
         chrome_options.add_argument('--mute-audio')
-        self._driver = webdriver.Chrome(executable_path=config['chrome_driver_path'],
-                                        chrome_options=chrome_options)
+        self._driver = webdriver.Chrome(
+            executable_path=config['CONFIG']['chrome_driver_path'],
+            chrome_options=chrome_options)
         self._driver.set_window_position(x=-10, y=0)
-        self._driver.get(config['game_url'])
+        self._driver.get(config['CONFIG']['game_url'])
         self._driver.execute_script('Runner.config.ACCELERATION=0')
-        self._driver.execute_script(canvas['init_script'])
+        self._driver.execute_script(config['CANVAS']['init_script'])
 
     def get_crashed(self):
         return self._driver.execute_script('return Runner.instance_.crashed')
@@ -46,7 +49,8 @@ class Game:
         self._driver.find_element_by_tag_name('body').send_keys(Keys.ARROW_DOWN)
 
     def get_score(self):
-        score_array = self._driver.execute_script('return Runner.instance_.distanceMeter.digits')
+        score_array = self._driver.execute_script(
+            'return Runner.instance_.distanceMeter.digits')
         score = ''.join(score_array)
         # the javascript object is of type array with score in the formate[1,0,0] which is 100.
         return int(score)
