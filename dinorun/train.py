@@ -3,7 +3,8 @@ main training module
 Parameters:
 * model => Keras Model to be trained
 * game_state => Game State module with access to game environment and dino
-* observe => flag to indicate wherther the model is to be trained(weight updates), else just play
+* observe => flag to indicate whether the model is to be trained(weight
+updates), else just play
 '''
 import json
 import random
