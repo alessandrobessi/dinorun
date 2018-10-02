@@ -1,18 +1,22 @@
+import base64
+import configparser
 import os
 import pickle
-import base64
-import cv2
-from PIL import Image
-from io import BytesIO
-import numpy as np
 from collections import deque
+from io import BytesIO
 
-from .config import canvas
+import cv2
+import numpy as np
+from PIL import Image
+
 from .settings import settings
+
+config = configparser.ConfigParser()
+config.read('./config.ini')
 
 
 def save_obj(obj, name):
-    with open('objects/' + name + '.pkl', 'wb') as f:  # dump files into objects folder
+    with open('objects/' + name + '.pkl', 'wb') as f:
         pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
 
 
@@ -22,7 +26,7 @@ def load_obj(name):
 
 
 def grab_screen(_driver):
-    image_b64 = _driver.execute_script(canvas['get_base64_script'])
+    image_b64 = _driver.execute_script(config['CANVAS']['get_base64_script'])
     screen = np.array(Image.open(BytesIO(base64.b64decode(image_b64))))
     image = process_img(screen)
     return image
