@@ -9,6 +9,7 @@ import cv2
 import numpy as np
 from PIL import Image
 
+from .canvas import canvas
 from .settings import settings
 
 config = configparser.ConfigParser()
@@ -26,7 +27,7 @@ def load_obj(name):
 
 
 def grab_screen(_driver):
-    image_b64 = _driver.execute_script(config['CANVAS']['get_base64_script'])
+    image_b64 = _driver.execute_script(canvas['get_base64_script'])
     screen = np.array(Image.open(BytesIO(base64.b64decode(image_b64))))
     image = process_img(screen)
     return image

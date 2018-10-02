@@ -16,6 +16,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 
+from .canvas import canvas
+
 config = configparser.ConfigParser()
 config.read('./config.ini')
 
@@ -31,7 +33,7 @@ class Game:
         self._driver.set_window_position(x=-10, y=0)
         self._driver.get(config['CONFIG']['game_url'])
         self._driver.execute_script('Runner.config.ACCELERATION=0')
-        self._driver.execute_script(config['CANVAS']['init_script'])
+        self._driver.execute_script(canvas['init_script'])
 
     def get_crashed(self):
         return self._driver.execute_script('return Runner.instance_.crashed')
