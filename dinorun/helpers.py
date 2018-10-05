@@ -37,7 +37,7 @@ def process_img(image):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)  # RGB to Grey Scale
     image = image[:300, :500]  # Crop Region of Interest(ROI)
     image[image == 83] = 255
-    image = cv2.resize(image, (80, 80))
+    image = cv2.resize(image, (settings['img_rows'], settings['img_rows']))
     return image
 
 
