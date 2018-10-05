@@ -5,3 +5,4 @@ cv2
 pillow
 numpy
 pandas
+torch
