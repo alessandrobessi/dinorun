@@ -36,6 +36,7 @@ def grab_screen(_driver):
 def process_img(image):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)  # RGB to Grey Scale
     image = image[:300, :500]  # Crop Region of Interest(ROI)
+    image[image == 83] = 255
     image = cv2.resize(image, (80, 80))
     return image
 
@@ -56,7 +57,6 @@ def show_img(graphs=False):
 
 
 def init_cache():
-    """initial variable caching, done only once"""
     if not os.path.exists(os.path.join(os.getcwd(), 'objects')):
         os.makedirs(os.path.join(os.getcwd(), 'objects'))
     save_obj(settings['first_epsilon'], 'epsilon')
