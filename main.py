@@ -19,4 +19,4 @@ def play_game(observe=False):
 
 if __name__ == '__main__':
     init_cache()
-    play_game()
+    play_game(observe=False)
