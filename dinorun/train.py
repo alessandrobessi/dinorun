@@ -26,7 +26,7 @@ def train(model, game_state, observe):
 
     if observe:
         observation_time = 9999999
-        epsilon = settings['final_epsilon']
+        epsilon = settings['last_epsilon']
     else:
         observation_time = settings['observation']
         epsilon = load_object('epsilon')
