@@ -9,8 +9,8 @@ settings = {
     'batch_size': 16,
     'frames_per_action': 1,
     'learning_rate': 1e-4,
-    'img_rows': 80,
-    'img_cols': 80,
+    'img_rows': 40,
+    'img_cols': 40,
     'img_channels': 4,
     'reward': 0.1
 }

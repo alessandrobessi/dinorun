@@ -25,8 +25,8 @@ class Model(nn.Module):
                                   out_channels=64,
                                   kernel_size=(3, 3),
                                   stride=(1, 1))
-        self.fc = nn.Linear(in_features=256, out_features=512)
-        self.fc2 = nn.Linear(in_features=512, out_features=settings['num_actions'])
+        self.fc = nn.Linear(in_features=64, out_features=256)
+        self.fc2 = nn.Linear(in_features=256, out_features=settings['num_actions'])
 
     def forward(self, x: Tensor) -> Tensor:
         conv1 = F.relu(F.max_pool2d(F.pad(self.conv2d_1(x), pad=(1, 1, 1, 1)),
@@ -35,7 +35,7 @@ class Model(nn.Module):
                                     kernel_size=(2, 2)))
         conv3 = F.relu(F.max_pool2d(F.pad(self.conv2d_3(conv2), pad=(1, 1, 1, 1)),
                                     kernel_size=(2, 2)))
-        flatten = conv3.view(-1, 64 * 2 * 2)
+        flatten = conv3.view(-1, 16 * 2 * 2)
         fc = self.fc(flatten)
         out = self.fc2(fc)
         return out

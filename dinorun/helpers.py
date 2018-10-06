@@ -34,9 +34,10 @@ def grab_screen(driver):
 
 
 def process_img(image):
-    image = cv2.resize(image, (settings['img_rows'], settings['img_rows']))
     image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     image = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY)[1]
+    image = image[:300, :500]
+    image = cv2.resize(image, (settings['img_rows'], settings['img_rows']))
     return image
 
 
