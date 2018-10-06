@@ -1,4 +1,5 @@
 .idea/
 objects/
-model.h5
+docs/
+model_weights.h5
 dinorun/__pycache__/
