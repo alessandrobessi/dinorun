@@ -1,3 +1,4 @@
+import logging
 import random
 import time
 
@@ -9,6 +10,16 @@ from .helpers import *
 config = configparser.ConfigParser()
 config.read('./config.ini')
 c = config['CONFIG']
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+log_formatter = logging.Formatter('%(asctime)s | %(levelname)s | %(message)s')
+file_handler = logging.FileHandler(os.path.join(os.getcwd(), 'training.log'))
+file_handler.setFormatter(log_formatter)
+logger.addHandler(file_handler)
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(log_formatter)
+logger.addHandler(console_handler)
 
 
 def train(model, game_state, observe):
@@ -26,7 +37,7 @@ def train(model, game_state, observe):
 
     if observe:
         observation_time = 9999999
-        epsilon = settings['last_epsilon']
+        epsilon = 0
     else:
         observation_time = settings['observation']
         epsilon = load_object('epsilon')
@@ -49,10 +60,11 @@ def train(model, game_state, observe):
 
         if t % settings['frames_per_action'] == 0:
             if random.random() <= epsilon:
-                print("RANDOM ACTION")
+                logging.info("RANDOM ACTION")
                 a_index = random.randrange(settings['num_actions'])
                 a_t[a_index] = 1
             else:
+                logging.info("POLICY ACTION")
                 q = model(torch.Tensor(s_t)).detach().numpy()
                 a_index = np.argmax(q)
                 a_t[a_index] = 1
@@ -61,7 +73,7 @@ def train(model, game_state, observe):
             epsilon -= (settings['first_epsilon'] - settings['last_epsilon']) / settings['explore']
 
         x_next, r_t, terminal = game_state.get_state(a_t)
-        print('fps: {0}'.format(1 / (time.time() - last_time)))
+        logging.info('fps: {}'.format(1 / (time.time() - last_time)))
         last_time = time.time()
         x_next = x_next.reshape(1, 1, x_next.shape[0], x_next.shape[1])
         s_next = np.append(x_next, s_t[:, :3, :, :], axis=1)
@@ -72,7 +84,7 @@ def train(model, game_state, observe):
 
         if t > observation_time:
 
-            print("TRAINING")
+            logging.info("TRAINING")
             loss = 0
 
             mini_batch = random.sample(replay_memory, settings['batch_size'])
@@ -106,14 +118,13 @@ def train(model, game_state, observe):
         s_t = initial_state if terminal else s_next
         t = t + 1
 
-        if t % 1000 == 0:
+        if t % 100 == 0:
             game_state.game.pause()
             save_object(replay_memory, 'replay_memory')
             save_object(t, 'time')
             save_object(epsilon, 'epsilon')
             game_state.save()
-            torch.save(model.state_dict(), 'model_weights.h5')
+            torch.save(model.state_dict(), c['model_weights_file_path'])
             game_state.game.resume()
 
-        print("TIMESTEP", t, "/ EPSILON", epsilon, "/ ACTION", a_index,
-              "/ REWARD", r_t, "/ Q_MAX ", np.max(q), "/ Loss ", loss)
+        logging.info("time {} | loss {}".format(t, loss))

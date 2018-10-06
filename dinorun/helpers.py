@@ -26,18 +26,17 @@ def load_object(name):
         return pickle.load(f)
 
 
-def grab_screen(_driver):
-    image_b64 = _driver.execute_script(canvas['get_base64_script'])
+def grab_screen(driver):
+    image_b64 = driver.execute_script(canvas['get_base64_script'])
     screen = np.array(Image.open(BytesIO(base64.b64decode(image_b64))))
     image = process_img(screen)
     return image
 
 
 def process_img(image):
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    image = image[:300, :500]
-    image[image == 83] = 255
     image = cv2.resize(image, (settings['img_rows'], settings['img_rows']))
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    image = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY)[1]
     return image
 
 
@@ -48,7 +47,7 @@ def show_img():
         cv2.namedWindow(window_title, cv2.WINDOW_NORMAL)
         cv2.resize(screen, (800, 400))
         cv2.imshow(window_title, screen)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
+        if cv2.waitKey(1) and 0xFF == ord('q'):
             cv2.destroyAllWindows()
             break
 
