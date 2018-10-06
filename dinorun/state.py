@@ -1,6 +1,7 @@
 import pandas as pd
 
 from .helpers import *
+from .settings import settings
 
 config = configparser.ConfigParser()
 config.read('./config.ini')
@@ -10,10 +11,8 @@ c = config['CONFIG']
 class State:
     def __init__(self, agent, game):
         self._agent = agent
-        self._game = game
-        # display the processed image on screen using openCV, implemented using python coroutine
+        self.game = game
         self._display = show_img()
-        # initiliaze the display coroutine
         self._display.__next__()
         self._initialize_log_files()
 
@@ -29,20 +28,19 @@ class State:
 
     def get_state(self, actions):
         self.actions_df.loc[len(self.actions_df)] = actions[1]
-        score = self._game.get_score()
-        reward = 0.1
-        is_over = False  # game over
+        score = self.game.get_score()
+        reward = settings['reward']
+        is_over = False
         if actions[1] == 1:
             self._agent.jump()
-        image = grab_screen(self._game._driver)
-        self._display.send(image)  # display the image on screen
+        image = grab_screen(self.game.driver)
+        self._display.send(image)
         if self._agent.is_crashed():
-            self.scores_df.loc[
-                len(self.loss_df)] = score  # log the score when game is over
-            self._game.restart()
+            self.scores_df.loc[len(self.loss_df)] = score
+            self.game.restart()
             reward = -1
             is_over = True
-        return image, reward, is_over  # return the Experience tuple
+        return image, reward, is_over
 
     def update_loss(self, loss):
         self.loss_df.loc[len(self.loss_df)] = loss

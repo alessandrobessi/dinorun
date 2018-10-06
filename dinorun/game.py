@@ -16,44 +16,38 @@ class Game:
         chrome_options = Options()
         chrome_options.add_argument('disable-infobars')
         chrome_options.add_argument('--mute-audio')
-        self._driver = webdriver.Chrome(executable_path=c['chrome_driver_path'],
-                                        chrome_options=chrome_options)
-        self._driver.set_window_position(x=-10, y=0)
-        self._driver.get(c['game_url'])
-        self._driver.execute_script('Runner.config.ACCELERATION=0')
-        self._driver.execute_script(canvas['init_script'])
+        self.driver = webdriver.Chrome(executable_path=c['chrome_driver_path'],
+                                       chrome_options=chrome_options)
+        self.driver.set_window_position(x=-10, y=0)
+        self.driver.get(c['game_url'])
+        self.driver.execute_script('Runner.config.ACCELERATION=0')
+        self.driver.execute_script(canvas['init_script'])
 
     def get_crashed(self):
-        return self._driver.execute_script('return Runner.instance_.crashed')
+        return self.driver.execute_script('return Runner.instance_.crashed')
 
     def get_playing(self):
-        return self._driver.execute_script('return Runner.instance_.playing')
+        return self.driver.execute_script('return Runner.instance_.playing')
 
     def restart(self):
-        self._driver.execute_script('Runner.instance_.restart()')
+        self.driver.execute_script('Runner.instance_.restart()')
 
     def press_up(self):
-        self._driver.find_element_by_tag_name('body').send_keys(Keys.ARROW_UP)
+        self.driver.find_element_by_tag_name('body').send_keys(Keys.ARROW_UP)
 
     def press_down(self):
-        self._driver.find_element_by_tag_name('body').send_keys(Keys.ARROW_DOWN)
+        self.driver.find_element_by_tag_name('body').send_keys(Keys.ARROW_DOWN)
 
     def get_score(self):
-        """
-        The javascript object is of type array with score
-        in the format [1,0,0], that is 100
-        """
-
-        score_array = self._driver.execute_script(
-            'return Runner.instance_.distanceMeter.digits')
+        score_array = self.driver.execute_script('return Runner.instance_.distanceMeter.digits')
         score = ''.join(score_array)
         return int(score)
 
     def pause(self):
-        return self._driver.execute_script('return Runner.instance_.stop()')
+        return self.driver.execute_script('return Runner.instance_.stop()')
 
     def resume(self):
-        return self._driver.execute_script('return Runner.instance_.play()')
+        return self.driver.execute_script('return Runner.instance_.play()')
 
     def end(self):
-        self._driver.close()
+        self.driver.close()

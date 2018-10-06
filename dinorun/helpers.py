@@ -16,13 +16,13 @@ config = configparser.ConfigParser()
 config.read('./config.ini')
 
 
-def save_obj(obj, name):
-    with open('objects/' + name + '.pkl', 'wb') as f:
+def save_object(obj, name):
+    with open('objects/{}.pkl'.format(name), 'wb') as f:
         pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
 
 
-def load_obj(name):
-    with open('objects/' + name + '.pkl', 'rb') as f:
+def load_object(name):
+    with open('objects/{}.pkl'.format(name), 'rb') as f:
         return pickle.load(f)
 
 
@@ -34,20 +34,17 @@ def grab_screen(_driver):
 
 
 def process_img(image):
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)  # RGB to Grey Scale
-    image = image[:300, :500]  # Crop Region of Interest(ROI)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    image = image[:300, :500]
     image[image == 83] = 255
     image = cv2.resize(image, (settings['img_rows'], settings['img_rows']))
     return image
 
 
-def show_img(graphs=False):
-    """
-    Show images in new window
-    """
+def show_img():
     while True:
         screen = (yield)
-        window_title = 'logs' if graphs else 'game_play'
+        window_title = 'game_play'
         cv2.namedWindow(window_title, cv2.WINDOW_NORMAL)
         cv2.resize(screen, (800, 400))
         cv2.imshow(window_title, screen)
@@ -59,8 +56,8 @@ def show_img(graphs=False):
 def init_cache():
     if not os.path.exists(os.path.join(os.getcwd(), 'objects')):
         os.makedirs(os.path.join(os.getcwd(), 'objects'))
-    save_obj(settings['first_epsilon'], 'epsilon')
+    save_object(settings['first_epsilon'], 'epsilon')
     t = 0
-    save_obj(t, 'time')
+    save_object(t, 'time')
     replay_memory = deque()
-    save_obj(replay_memory, 'replay_memory')
+    save_object(replay_memory, 'replay_memory')
