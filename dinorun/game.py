@@ -21,8 +21,6 @@ class Game:
         self.driver.set_window_position(x=-10, y=0)
         self.driver.get(c['game_url'])
         self.driver.execute_script('Runner.config.ACCELERATION=0')
-        self.driver.execute_script('Runner.config.MAX_CLOUDS=0')
-        self.driver.execute_script('Runner.config.SPEED=13')
         self.driver.execute_script(canvas['init_script'])
 
     def get_crashed(self):
