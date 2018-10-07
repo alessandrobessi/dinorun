@@ -53,8 +53,8 @@ def train(model, game_state, observe):
     while True:
 
         optimizer.zero_grad()
-        loss = 0
         q = 0
+        loss = 0
         a_index = 0
         a_t = np.zeros([settings['num_actions']])
 
@@ -83,7 +83,6 @@ def train(model, game_state, observe):
             replay_memory.popleft()
 
         if t > observation_time:
-
             logging.info("TRAINING")
             loss = 0
 
@@ -127,4 +126,4 @@ def train(model, game_state, observe):
             torch.save(model.state_dict(), c['model_weights_file_path'])
             game_state.game.resume()
 
-        logging.info("time {} | loss {}".format(t, loss))
+        logging.info("time {} | action {} | loss {}".format(t, a_t, loss))
