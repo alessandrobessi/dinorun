@@ -10,7 +10,7 @@ c = config['CONFIG']
 
 class State:
     def __init__(self, agent, game):
-        self._agent = agent
+        self.agent = agent
         self.game = game
         self._display = show_img()
         self._display.__next__()
@@ -32,10 +32,12 @@ class State:
         reward = settings['reward']
         is_over = False
         if actions[1] == 1:
-            self._agent.jump()
+            self.agent.jump()
+        if actions[2] == 1:
+            self.agent.duck()
         image = grab_screen(self.game.driver)
         self._display.send(image)
-        if self._agent.is_crashed():
+        if self.agent.is_crashed():
             self.scores_df.loc[len(self.loss_df)] = score
             self.game.restart()
             reward = -1

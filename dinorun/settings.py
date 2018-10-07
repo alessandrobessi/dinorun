@@ -1,5 +1,5 @@
 settings = {
-    'num_actions': 2,
+    'num_actions': 3,
     'gamma': 0.99,
     'observation': 100,
     'explore': 100000,

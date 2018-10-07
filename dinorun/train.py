@@ -127,4 +127,4 @@ def train(model, game_state, observe):
             torch.save(model.state_dict(), c['model_weights_file_path'])
             game_state.game.resume()
 
-        logging.info("time {} | loss {}".format(t, loss))
+        logging.info("time {} | action {} | loss {}".format(t, a_t, loss))
