@@ -5,7 +5,7 @@ settings = {
     'explore': 100000,
     'last_epsilon': 1e-4,
     'first_epsilon': 0.1,
-    'len_replay_memory': 50000,
+    'len_replay_memory': 1000000,
     'batch_size': 8,
     'frames_per_action': 1,
     'learning_rate': 1e-4,
